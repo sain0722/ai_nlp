@@ -270,7 +270,26 @@ class Trainer:
         plt.ylabel('손실')
         plt.show()   
         
-
+        
+class Embedding:
+    def __init__(self,W):
+        self.params = [W]
+        self.grads = [np.zeros_like(W)]
+        self.idx = None
+    
+    # 순전파
+    def forward(self,idx):
+        W, = self.params
+        self.idx = idx
+        out = W[idx]
+        return out
+    
+    # 역전파
+    def backward(self,dout):  # 속도가 빠름
+        dW, = self.grads
+        dW[...] = 0
+        np.add.at(dW, self.idx, dout) # for문을 사용하지 않음
+        return None        
         
         
 
